@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace MarsRover
 {
-    public class Position
+    public class Position(Coordinates coordinates, CardinalDirections facing)
     {
-        int x;
-        int y;
-        CardinalDirections facing;
+        public Coordinates Coordinates = coordinates;
+        public CardinalDirections Facing = facing;
     }
 }

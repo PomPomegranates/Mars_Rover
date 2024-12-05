@@ -12,6 +12,7 @@ namespace MarsRover
         R,
         M
     }
+
     public enum CardinalDirections
     {
         N,

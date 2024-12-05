@@ -13,7 +13,7 @@ namespace MarsRover
             {
                 Console.WriteLine(item);
             }
-            new Coordinates(5, 6);
+            
         }
     }
 }
