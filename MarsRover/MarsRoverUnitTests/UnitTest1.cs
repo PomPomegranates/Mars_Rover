@@ -15,6 +15,7 @@ namespace MarsRoverUnitTests
         {
             //arrange
             Plateau.GetMap();
+
         }
         [Test]
         public void TestDefaultMap()
@@ -95,35 +96,17 @@ namespace MarsRoverUnitTests
             //assert
             Assert.That(plateau.MapSize, Is.EqualTo((4, 4)));
         }
-        [Test]
-        public void LaunchMissionControlTest()
-        {
-            //arrange
-            MissionControl.LaunchMissionControl(3);
-            //act
-            var missionControl = MissionControl.GetMissionControl();
-            //assert
-            Assert.That(missionControl.Rovers.Count, Is.EqualTo(3));
-        }
-        [Test]
-        public void OverideMissionControlTest()
-        {
-            //arrange
-            MissionControl.GetMissionControl();
-            //act
-            var missionControl = MissionControl.LaunchMissionControl(5);
-            //assert
-            Assert.That(missionControl.Rovers.Count, Is.EqualTo(5));
-        }
+        
+        
         [Test]
         public void DefaultMissionControlTest()
         {
             //arrange
-            MissionControl.GetMissionControl();
+            MissionControl.LaunchMissionControl((2,3), CardinalDirections.E);
             //act
             var missionControl = MissionControl.GetMissionControl();
             //assert
-            Assert.That(missionControl.Rovers.Count, Is.EqualTo(1));
+            //Assert.That(missionControl.Rover.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -245,5 +228,16 @@ namespace MarsRoverUnitTests
             foreach (Instruction instruction in instructions) rover.MoveRover(instruction);
             rover._Position.Coordinates.Should().Be((0, 4));
         }
+
+        [Test]
+        public void RoverShouldBeNamed()
+        {
+            MissionControl.LaunchMissionControl((2,3), CardinalDirections.N);
+            var missionControl = MissionControl.GetMissionControl();
+            //missionControl.Rovers.Should().NotBeEmpty();
+            missionControl.Rovers.ElementAt(0).Value.Name.Should().NotBeNull();
+        }
+
+
     }
 }

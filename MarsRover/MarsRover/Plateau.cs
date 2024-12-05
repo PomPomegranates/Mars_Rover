@@ -11,13 +11,13 @@ namespace MarsRover
     {
         public Coordinates MapSize;
         private static Plateau instance;
-        public static Coordinates[] RoverPositions;
+        //public static Coordinates[] RoverPositions;
+        
 
 
         private Plateau(Coordinates input)
         {
             MapSize = input;
-            //RoverPositions = 
         }
 
         public static Plateau GetMap()
@@ -41,6 +41,17 @@ namespace MarsRover
                 return instance;
             }
            
+        }
+
+        public static Coordinates GetRoverPosition(string name) 
+        {
+            var missionControl = MissionControl.GetMissionControl();
+            Rover rover = missionControl.Rovers[name];
+            //foreach (Rover rover in rovers)
+            ////{
+            //    if (rover.Name)
+            ////}
+            return new Coordinates(0,0);
         }
 
             

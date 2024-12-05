@@ -8,18 +8,21 @@ namespace MarsRover
 {
     internal class MissionControl
     {
-        public Rover[] Rovers;
+        //public Rover Rover;
         private static MissionControl instance;
-
-        private MissionControl(Rover[] numberOfRovers)
+        public Dictionary<string, Rover> Rovers = new Dictionary<string,Rover>();
+        
+        private MissionControl(Rover rover)
         {
-            Rovers = numberOfRovers;
+
+            Rovers.Add(rover.Name, rover);
 
         }
 
-        public static MissionControl LaunchMissionControl(int numberOfRovers)
+        public static MissionControl LaunchMissionControl(Coordinates coordinates, CardinalDirections cardinalDirection, string? name = null)
         {
-            instance = new MissionControl(new Rover[numberOfRovers]);
+            var rover = new Rover(name, coordinates, cardinalDirection);
+            instance = new MissionControl(rover);
 
             return instance;
         }
@@ -27,12 +30,24 @@ namespace MarsRover
         public static MissionControl GetMissionControl()
         {
             
-            if (instance == null)
-            {
-                instance = new MissionControl(new Rover[1]);
-            }
             return instance;
         }
+
+        public static void AddRover(Coordinates coords, CardinalDirections facing)
+        {
+            if (instance.Rovers.Count < 5)
+            {
+                Rover rover = new Rover(null, coords, facing);
+                instance.Rovers.Add(rover.Name, rover);
+            }
+            else
+            {
+                Console.WriteLine("Too Many Rovers!");
+            }
+            
+        }
+
+        //public static void AddRover()
 
 
     }

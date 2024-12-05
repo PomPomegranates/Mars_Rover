@@ -15,24 +15,21 @@ namespace MarsRover
         private static int nameNumber = 0;
         private string[] _possibleNames = ["Dave", "Clarissa", "Margot", "Ingrid", "Pat", "Clementine"];
 
-        public Rover(Coordinates startPosition, CardinalDirections facing)
+        public Rover(string? name, Coordinates startPosition, CardinalDirections facing)
         {
-            
-            
-            Name = _possibleNames[nameNumber];
-            nameNumber++;
-            if (nameNumber > _possibleNames.Length)
+            if (name is not null)
             {
-                nameNumber = 0;
+                Name = name;
             }
-            _Position = new Position(startPosition, facing);
-        }
-
-        public Rover(string name, Coordinates startPosition, CardinalDirections facing)
-        {
-            Name = name;
-            
-            
+            else
+            {
+                Name = _possibleNames[nameNumber];
+                nameNumber++;
+                if (nameNumber > _possibleNames.Length)
+                {
+                    nameNumber = 0;
+                }
+            }
             _Position = new Position(startPosition, facing);
             this.CheckRoverPosition();
         }
