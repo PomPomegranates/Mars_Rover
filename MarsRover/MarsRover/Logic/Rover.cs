@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace MarsRover
+namespace MarsRover.Logic
 {
     internal class Rover
     {
@@ -31,29 +31,29 @@ namespace MarsRover
                 }
             }
             _Position = new Position(startPosition, facing);
-            this.CheckRoverPosition();
+            CheckRoverPosition();
         }
 
-        public void CheckRoverPosition()
+        private void CheckRoverPosition()
         {
             var plateau = Plateau.GetMap();
-            if (this._Position.Coordinates.x < 0) this._Position.Coordinates.x = 0;
-            if (this._Position.Coordinates.y < 0) this._Position.Coordinates.y = 0;
-            
-            while (this._Position.Coordinates.y > plateau.MapSize.y)
+            if (_Position.Coordinates.x < 0) _Position.Coordinates.x = 0;
+            if (_Position.Coordinates.y < 0) _Position.Coordinates.y = 0;
+
+            while (_Position.Coordinates.y > plateau.MapSize.y)
             {
-                this._Position.Coordinates.y--;
+                _Position.Coordinates.y--;
             }
-            while (this._Position.Coordinates.x > plateau.MapSize.x)
+            while (_Position.Coordinates.x > plateau.MapSize.x)
             {
-                this._Position.Coordinates.x--;
+                _Position.Coordinates.x--;
             }
         }
         public static Coordinates? ReleaseRover(string readInput)
         {
             Coordinates? input = (Coordinates)MarsTerrainParser.ParseMapInput(readInput);
             if (input != null) return input;
-            else return (Coordinates)(0, 0);
+            else return (0, 0);
         }
 
         public void MoveRover(Instruction instruction)
@@ -80,28 +80,28 @@ namespace MarsRover
                         case CardinalDirections.N:
                             {
                                 _Position.Coordinates.y++;
-                                this.CheckRoverPosition();
+                                CheckRoverPosition();
 
                                 break;
                             }
                         case CardinalDirections.S:
                             {
                                 _Position.Coordinates.y--;
-                                this.CheckRoverPosition();
+                                CheckRoverPosition();
                                 break;
                             }
 
                         case CardinalDirections.E:
                             {
                                 _Position.Coordinates.x++;
-                                this.CheckRoverPosition();
+                                CheckRoverPosition();
                                 break;
                             }
-                        case CardinalDirections.W: 
-                            { 
+                        case CardinalDirections.W:
+                            {
                                 _Position.Coordinates.x--;
-                                this.CheckRoverPosition();
-                                break; 
+                                CheckRoverPosition();
+                                break;
                             }
 
                     }

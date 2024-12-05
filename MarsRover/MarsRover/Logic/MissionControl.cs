@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarsRover
+namespace MarsRover.Logic
 {
     internal class MissionControl
     {
         //public Rover Rover;
         private static MissionControl instance;
-        public Dictionary<string, Rover> Rovers = new Dictionary<string,Rover>();
-        
+        public Dictionary<string, Rover> Rovers = new Dictionary<string, Rover>();
+
         private MissionControl(Rover rover)
         {
 
@@ -29,7 +29,7 @@ namespace MarsRover
 
         public static MissionControl GetMissionControl()
         {
-            
+
             return instance;
         }
 
@@ -44,10 +44,23 @@ namespace MarsRover
             {
                 Console.WriteLine("Too Many Rovers!");
             }
-            
+
         }
 
-        //public static void AddRover()
+        public static Coordinates? GetRoverPosition(string name)
+        {
+
+            //Rover rover = instance.Rovers[name];
+            foreach (Rover rover in instance.Rovers.Values)
+            {
+                if (rover.Name == name)
+                {
+                    return rover._Position.Coordinates;
+                }
+            }
+            return null;
+
+        }
 
 
     }

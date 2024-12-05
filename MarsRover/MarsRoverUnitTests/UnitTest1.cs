@@ -2,10 +2,10 @@ global using Coordinates = (int x, int y);
 using Moq;
 using System.Runtime.CompilerServices;
 //[assembly: InternalsVisibleTo("DayTwoTests")]
-using MarsRover;
 using MarsRover.Inputs;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestPlatform.Utilities;
+using MarsRover.Logic;
 namespace MarsRoverUnitTests
 {
     public class Tests
@@ -236,6 +236,15 @@ namespace MarsRoverUnitTests
             var missionControl = MissionControl.GetMissionControl();
             //missionControl.Rovers.Should().NotBeEmpty();
             missionControl.Rovers.ElementAt(0).Value.Name.Should().NotBeNull();
+        }
+
+        [Test]
+        public void GetRoverPositionTest()
+        {
+            MissionControl.LaunchMissionControl((2, 3), CardinalDirections.N);
+            var missionControl = MissionControl.GetMissionControl();
+            var roverName = missionControl.Rovers.ElementAt(0).Key;
+            MissionControl.GetRoverPosition(roverName).Should().Be((2, 3));
         }
 
 

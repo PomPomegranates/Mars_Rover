@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarsRover
+namespace MarsRover.Logic
 {
     public class Position(Coordinates coordinates, CardinalDirections facing)
     {

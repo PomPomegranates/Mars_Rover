@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarsRover
+namespace MarsRover.Logic
 {
     public class Plateau
     {
         public Coordinates MapSize;
         private static Plateau instance;
         //public static Coordinates[] RoverPositions;
-        
+
 
 
         private Plateau(Coordinates input)
@@ -24,9 +24,9 @@ namespace MarsRover
         {
             if (instance == null)
             {
-                instance = new Plateau((10,10));
+                instance = new Plateau((10, 10));
             }
-             return instance;
+            return instance;
         }
 
         public static Plateau GetMap(Coordinates coordinates)
@@ -40,20 +40,11 @@ namespace MarsRover
                 instance = new Plateau(coordinates);
                 return instance;
             }
-           
+
         }
 
-        public static Coordinates GetRoverPosition(string name) 
-        {
-            var missionControl = MissionControl.GetMissionControl();
-            Rover rover = missionControl.Rovers[name];
-            //foreach (Rover rover in rovers)
-            ////{
-            //    if (rover.Name)
-            ////}
-            return new Coordinates(0,0);
-        }
 
-            
+
+
     }
 }
