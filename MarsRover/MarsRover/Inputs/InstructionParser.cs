@@ -9,6 +9,9 @@ namespace MarsRover.Inputs
     internal class InstructionParser
     {
         //This class recieves Input from a string 
-        public static RoverInput
+        //public static RoverInput
+        public static Position RoverPosition;
+
+
     }
 }
