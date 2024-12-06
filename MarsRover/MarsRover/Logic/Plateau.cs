@@ -29,22 +29,44 @@ namespace MarsRover.Logic
             return instance;
         }
 
-        public static Plateau GetMap(Coordinates coordinates)
+        public static Plateau GetMap(Coordinates? coordinates)
         {
-            if (instance.MapSize == coordinates)
-            {
+
+            
+                instance = new Plateau(coordinates ?? (5,5));
                 return instance;
-            }
-            else
-            {
-                instance = new Plateau(coordinates);
-                return instance;
-            }
+
 
         }
 
 
 
+
+        //public static Plateau GetMap(Coordinates? coordinates)
+        //{
+        //    if (instance.MapSize == coordinates)
+        //    {
+        //        return instance;
+        //    }
+        //    else if (coordinates == null)
+        //    {
+        //        return GetMap();
+        //    }
+        //    return GetMap(coordinates);
+
+        //}
+        //public static Plateau GetMap(Coordinates coordinates)
+        //{
+        //    if (instance.MapSize == coordinates)
+        //    {
+        //        return instance;
+        //    }
+        //    else
+        //    {
+        //        return instance = new Plateau(coordinates);
+        //    }
+
+        //}
 
     }
 }

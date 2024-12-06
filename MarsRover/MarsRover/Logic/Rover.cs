@@ -13,7 +13,7 @@ namespace MarsRover.Logic
         public string Name;
         public Position _Position;
         private static int nameNumber = 0;
-        private string[] _possibleNames = ["Dave", "Clarissa", "Margot", "Ingrid", "Pat", "Clementine"];
+        private string[] _possibleNames = ["Spirit", "Opportunity", "Odyssey", "Ingrid", "Pat", "Clementine"];
 
         public Rover(string? name, Coordinates startPosition, CardinalDirections facing)
         {
@@ -81,6 +81,7 @@ namespace MarsRover.Logic
                             {
                                 _Position.Coordinates.y++;
                                 CheckRoverPosition();
+                                if (MissionControl.isCrash()) _Position.Coordinates.y--;
 
                                 break;
                             }
@@ -88,6 +89,7 @@ namespace MarsRover.Logic
                             {
                                 _Position.Coordinates.y--;
                                 CheckRoverPosition();
+                                if (MissionControl.isCrash()) _Position.Coordinates.y++;
                                 break;
                             }
 
@@ -95,17 +97,79 @@ namespace MarsRover.Logic
                             {
                                 _Position.Coordinates.x++;
                                 CheckRoverPosition();
+                                if (MissionControl.isCrash()) _Position.Coordinates.x--;
                                 break;
                             }
                         case CardinalDirections.W:
                             {
                                 _Position.Coordinates.x--;
                                 CheckRoverPosition();
+                                if (MissionControl.isCrash()) _Position.Coordinates.x++;
                                 break;
                             }
 
                     }
                     break;
+            }
+        }
+        public void MoveRover(Instruction[] instructions)
+        {
+            foreach (Instruction instruction in instructions)
+            {
+
+                switch (instruction)
+                {
+                    case Instruction.L:
+                        if (_Position.Facing == CardinalDirections.N)
+                        {
+                            _Position.Facing = CardinalDirections.W;
+                        }
+                        else _Position.Facing--;
+                        break;
+                    case Instruction.R:
+                        if (_Position.Facing == CardinalDirections.W)
+                        {
+                            _Position.Facing = CardinalDirections.N;
+                        }
+                        else _Position.Facing++;
+                        break;
+                    case Instruction.M:
+                        switch (_Position.Facing)
+                        {
+                            case CardinalDirections.N:
+                                {
+                                    _Position.Coordinates.y++;
+                                    CheckRoverPosition();
+                                    if (MissionControl.isCrash()) _Position.Coordinates.y--;
+
+                                    break;
+                                }
+                            case CardinalDirections.S:
+                                {
+                                    _Position.Coordinates.y--;
+                                    CheckRoverPosition();
+                                    if (MissionControl.isCrash()) _Position.Coordinates.y++;
+                                    break;
+                                }
+
+                            case CardinalDirections.E:
+                                {
+                                    _Position.Coordinates.x++;
+                                    CheckRoverPosition();
+                                    if (MissionControl.isCrash()) _Position.Coordinates.x--;
+                                    break;
+                                }
+                            case CardinalDirections.W:
+                                {
+                                    _Position.Coordinates.x--;
+                                    CheckRoverPosition();
+                                    if (MissionControl.isCrash()) _Position.Coordinates.x++;
+                                    break;
+                                }
+
+                        }
+                        break;
+                }
             }
         }
 

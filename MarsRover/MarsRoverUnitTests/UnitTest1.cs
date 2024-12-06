@@ -40,7 +40,23 @@ namespace MarsRoverUnitTests
         }
 
 
+        [Test]
+        public void RoverInputTest()
+        {
+            var expectedOutput = (new Coordinates(1, 2), CardinalDirections.N);
+            var actualOutput = RoverInput.RoverInitialiser("1 2 N");
+            var expectedSecondOutput = (new Coordinates(0, 0), CardinalDirections.N);
+            var actualSecondOutput = RoverInput.RoverInitialiser("");
 
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(expectedOutput, Is.EqualTo(actualOutput));
+                Assert.That(expectedSecondOutput, Is.EqualTo(actualSecondOutput));
+            });
+           
+      
+        }
 
 
         [Test]
@@ -195,36 +211,41 @@ namespace MarsRoverUnitTests
         [Test]
         public void RoverCannotFallOffMapToTheSouth()
         {
-            Rover rover = new("Piccolo", (2, 4), CardinalDirections.S);
             Plateau.GetMap((10, 10));
+      
+            MissionControl.LaunchMissionControl((2, 4), CardinalDirections.S, "Piccolo");
             Instruction[] instructions = RoverInput.Input("MMMMMMM");
+            Rover rover = MissionControl.GetRover("Piccolo");
             foreach (Instruction instruction in instructions) rover.MoveRover(instruction);
             rover._Position.Coordinates.Should().Be((2, 0));
         }
         [Test]
         public void RoverCannotFallOffMapToTheNorth()
         {
-            Rover rover = new("Piccolo", (2, 4), CardinalDirections.N);
             Plateau.GetMap((10, 10));
-            Instruction[] instructions = RoverInput.Input("MMMMMMMMMMMM");
+            MissionControl.LaunchMissionControl((2, 4), CardinalDirections.N, "Piccolo");
+            Instruction[] instructions = RoverInput.Input("MMMMMMM");
+            Rover rover = MissionControl.GetRover("Piccolo");
             foreach (Instruction instruction in instructions) rover.MoveRover(instruction);
             rover._Position.Coordinates.Should().Be((2,10));
         }
         [Test]
         public void RoverCannotFallOffMapToTheEast()
         {
-            Rover rover = new("Piccolo", (2, 4), CardinalDirections.E);
             Plateau.GetMap((5, 5));
-            Instruction[] instructions = RoverInput.Input("MMMM");
+            MissionControl.LaunchMissionControl((2, 4), CardinalDirections.E, "Piccolo");
+            Instruction[] instructions = RoverInput.Input("MMMMMMM");
+            Rover rover = MissionControl.GetRover("Piccolo");
             foreach (Instruction instruction in instructions) rover.MoveRover(instruction);
             rover._Position.Coordinates.Should().Be((5, 4));
         }
         [Test]
         public void RoverCannotFallOffMapToTheWest()
         {
-            Rover rover = new("Piccolo", (2, 4), CardinalDirections.W);
             Plateau.GetMap((10, 10));
-            Instruction[] instructions = RoverInput.Input("MMMMMMMMMMMMMMM");
+            MissionControl.LaunchMissionControl((2, 4), CardinalDirections.W, "Piccolo");
+            Instruction[] instructions = RoverInput.Input("MMMMMMM");
+            Rover rover = MissionControl.GetRover("Piccolo");
             foreach (Instruction instruction in instructions) rover.MoveRover(instruction);
             rover._Position.Coordinates.Should().Be((0, 4));
         }
@@ -232,9 +253,9 @@ namespace MarsRoverUnitTests
         [Test]
         public void RoverShouldBeNamed()
         {
-            MissionControl.LaunchMissionControl((2,3), CardinalDirections.N);
+            MissionControl.LaunchMissionControl((2, 4), CardinalDirections.S);
+
             var missionControl = MissionControl.GetMissionControl();
-            //missionControl.Rovers.Should().NotBeEmpty();
             missionControl.Rovers.ElementAt(0).Value.Name.Should().NotBeNull();
         }
 
@@ -244,9 +265,34 @@ namespace MarsRoverUnitTests
             MissionControl.LaunchMissionControl((2, 3), CardinalDirections.N);
             var missionControl = MissionControl.GetMissionControl();
             var roverName = missionControl.Rovers.ElementAt(0).Key;
-            MissionControl.GetRoverPosition(roverName).Should().Be((2, 3));
+            MissionControl.GetRoverPosition(roverName).Coordinates.Should().Be((2, 3));
         }
 
+        [Test]
+        public void CrashRoversTest()
+        {
+            MissionControl.LaunchMissionControl((2, 3), CardinalDirections.N);
+            var missionControl = MissionControl.GetMissionControl();
+            var initialiser = RoverInput.RoverInitialiser("2 2 N");
+            MissionControl.AddRover(initialiser.coords, initialiser.facing);
 
+
+            //var roverName = missionControl.Rovers.ElementAt(1).Key;
+            //missionControl.Rovers[roverName].MoveRover(RoverInput.Input("M"));
+            MissionControl.isCrash().Should().BeFalse();
+        }
+        [Test]
+        public void CrashRoversAvoidanceTest()
+        {
+            MissionControl.LaunchMissionControl((2, 3), CardinalDirections.N);
+            var missionControl = MissionControl.GetMissionControl();
+            var initialiser = RoverInput.RoverInitialiser("2 2 N");
+            MissionControl.AddRover(initialiser.coords, initialiser.facing);
+            //MissionControl.isCrash().Should().BeTrue();
+            var roverName = missionControl.Rovers.ElementAt(1).Key;
+            missionControl.Rovers[roverName].MoveRover(RoverInput.Input("M"));
+            missionControl.Rovers[roverName]._Position.Coordinates.Should().NotBe((2, 3));
+            missionControl.Rovers[roverName]._Position.Coordinates.Should().Be((2, 2));
+        }
     }
 }

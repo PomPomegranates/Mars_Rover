@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace MarsRover.Logic
 {
@@ -47,19 +48,58 @@ namespace MarsRover.Logic
 
         }
 
-        public static Coordinates? GetRoverPosition(string name)
+        public static Rover GetRover(string name)
+        {
+            return instance.Rovers[name];
+        }
+
+        public static Position GetRoverPosition(string name)
         {
 
-            //Rover rover = instance.Rovers[name];
-            foreach (Rover rover in instance.Rovers.Values)
-            {
-                if (rover.Name == name)
-                {
-                    return rover._Position.Coordinates;
-                }
-            }
-            return null;
+            Rover rover = instance.Rovers[name];
+            return rover._Position;
 
+        }
+        public static void PrintRoverPosition(string name)
+        {
+
+            Rover rover = instance.Rovers[name];
+            string x = rover._Position.Coordinates.x.ToString();
+            string y = rover._Position.Coordinates.y.ToString();
+            switch (rover._Position.Facing)
+            {
+                case CardinalDirections.N:
+                    {
+                        Console.WriteLine(x + ' ' + y + ' ' + 'N');
+                        break;
+                    }
+                    case CardinalDirections.E: 
+                    {
+                        Console.WriteLine(x + ' ' + y + ' ' + 'E');
+                        break;
+                    }
+                    case CardinalDirections.S: 
+                    {
+                        Console.WriteLine(x + ' ' + y + ' ' + 'S');
+                        break;
+                    }
+                    case CardinalDirections.W:
+                    {
+                        Console.WriteLine(x + ' ' + y + ' ' + 'W');
+                        break ;
+                    }
+            }
+
+        }
+
+        public static bool isCrash()
+        {
+            if (MissionControl.GetMissionControl().Rovers.Values.ToList().Select(x => x._Position.Coordinates.ToString()).Distinct().ToList().Count() == GetMissionControl().Rovers.Count())
+            {
+                return false;
+            }
+            return true;
+            
         }
 
 

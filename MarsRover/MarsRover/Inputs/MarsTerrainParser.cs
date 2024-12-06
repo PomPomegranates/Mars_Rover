@@ -11,11 +11,21 @@ namespace MarsRover.Inputs
     {
         public static Coordinates? ParseMapInput(string input)
         {
-
-            string[] stringCoordinates = input.Split(',');
+            string[] stringCoordinates;
+            if (input.Contains(','))
+            {
+                stringCoordinates = input.Split(',');
+            }
+            else
+            {
+                stringCoordinates = input.Split(' ');
+            }
+            
             if (stringCoordinates.Length == 2 && int.TryParse(stringCoordinates[0], out int resultX) && int.TryParse(stringCoordinates[1], out int resultY)) return new Coordinates(resultX, resultY);
             else return null;
 
         }
+
+
     }
 }

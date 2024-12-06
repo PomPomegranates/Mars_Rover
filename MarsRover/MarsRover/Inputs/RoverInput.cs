@@ -11,6 +11,38 @@ namespace MarsRover.Inputs
     internal class RoverInput : IInput
     {
         //This class recieves Input from a string 
+
+
+        public static (Coordinates coords, CardinalDirections facing) RoverInitialiser(string? input)
+        {
+            CardinalDirections facing = new CardinalDirections();
+            string[] roverStart = input.Split(' ');
+                if (roverStart.Length == 3 && int.TryParse(roverStart[0], out int resultX) && int.TryParse(roverStart[1], out int resultY))
+                {
+                    switch (roverStart[2].ToUpper())
+                    {
+                        case "N":
+                            facing = CardinalDirections.N;
+                            return (new Coordinates(resultX, resultY),facing);
+                        case "E":
+                            facing = CardinalDirections.E;
+                            return (new Coordinates(resultX, resultY), facing);
+                        case "S":
+                            facing = CardinalDirections.S;
+                            return (new Coordinates(resultX, resultY), facing);
+                        case "W":
+                            facing = CardinalDirections.W;
+                            return (new Coordinates(resultX, resultY), facing);
+                        default:
+                            break;
+                    }
+                }
+
+            Console.WriteLine("Returning Default");
+            return (new Coordinates(0, 0), CardinalDirections.N);
+
+
+        }
         public static Instruction[] Input(string? input)
         {
             List<Instruction> instructions = [];
@@ -33,9 +65,6 @@ namespace MarsRover.Inputs
 
                     }
                 }
-
-            
-
             return instructions.ToArray();
         }
 
