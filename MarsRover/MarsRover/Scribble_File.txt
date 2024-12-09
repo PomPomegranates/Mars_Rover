@@ -1,0 +1,5 @@
+﻿So I need multiple different things here
+Need a Display feature, that constantly updates the display to display the mars landscape
+^This should be Async ^THis should be checking THE map. 
+Need A game logic, also async, that checks if the rover has hit anything. 
+Need a way to swap between Rovers. 
